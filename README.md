@@ -1,16 +1,12 @@
 # vscode-weather-status README
 
-This is the README for your extension "vscode-weather-status". After writing up a brief description, we recommend including the following sections.
+This extension displays the current weather in the VS Code status bar. The weather is updated regularly while VS Code is running.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+The extension calls a third-party weather service at regular intervals, requesting various bits of information to display in the statusbar. The information displayed can be adjusted in configuration, as can the location to obtain weather details for.
 
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+The service currently obtains weather details from [https://wttr.in](https://wttr.in). Please take a moment to appreciate the provider of this service and see the project's [GitHub page](https://github.com/chubin/wttr.in).
 
 ## Requirements
 

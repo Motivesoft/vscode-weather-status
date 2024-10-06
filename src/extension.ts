@@ -53,11 +53,13 @@ async function getWeatherData(): Promise<void> {
 	const config = vscode.workspace.getConfiguration("vscode-weather-status");
 	const location = config.get("location","alicante");
 	const formatString = config.get("format","%C %t %h %w");
+	const langCode = config.get("lang","");
 
 	try {
 		const response = await axios.get('https://wttr.in/'+location, {
 			params: {
-				format: formatString
+				format: formatString,
+				lang: langCode
 			}
 		});
 
