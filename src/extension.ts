@@ -2,6 +2,8 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
+import axios from 'axios';
+
 let statusBarItem: vscode.StatusBarItem;
 
 // This method is called when your extension is activated
@@ -41,16 +43,33 @@ export function deactivate()
 	}
 }
 
-function updateWeatherStatus(): void {
-	console.log('Updating weather status');
+async function updateWeatherStatus() {
+	//console.log('Updating weather status');
 
-	const n = "☀️   +21°C";
-	statusBarItem.text = n;
+	await getWeatherData();
+}
+
+async function getWeatherData(): Promise<void> {
+	const config = vscode.workspace.getConfiguration("vscode-weather-status");
+	const location = config.get("location","alicante");
+	const formatString = config.get("format","%c+%t");
+
+	try {
+		/*
+		const response = await axios.get('https://wttr.in/'+location, {
+			params: {
+				format: formatString
+			}
+		});
+		const weather = response.data
+		*/
+		const weather = "☀️   +21°C";
+		statusBarItem.text = weather;
+	} catch (error) {
+		console.log('Failed to get weather update: {error}');
+		statusBarItem.text = "n/a";
+	}
+
+	// Make sure this is visible
 	statusBarItem.show();
-	// if (n > 0) {
-	// 	myStatusBarItem.text = `$(megaphone) ${n} line(s) selected`;
-	// 	myStatusBarItem.show();
-	// } else {
-	// 	myStatusBarItem.hide();
-	// }
 }
