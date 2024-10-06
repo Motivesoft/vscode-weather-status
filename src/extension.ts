@@ -52,18 +52,16 @@ async function updateWeatherStatus() {
 async function getWeatherData(): Promise<void> {
 	const config = vscode.workspace.getConfiguration("vscode-weather-status");
 	const location = config.get("location","alicante");
-	const formatString = config.get("format","%c+%t");
+	const formatString = config.get("format","%C %t %h %w");
 
 	try {
-		/*
 		const response = await axios.get('https://wttr.in/'+location, {
 			params: {
 				format: formatString
 			}
 		});
-		const weather = response.data
-		*/
-		const weather = "☀️   +21°C";
+		const weather = response.data;
+
 		statusBarItem.text = weather;
 	} catch (error) {
 		console.log('Failed to get weather update: {error}');
