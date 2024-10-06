@@ -60,9 +60,8 @@ async function getWeatherData(): Promise<void> {
 				format: formatString
 			}
 		});
-		const weather = response.data;
 
-		statusBarItem.text = weather;
+		statusBarItem.text = response.data;
 	} catch (error) {
 		console.log('Failed to get weather update: {error}');
 		statusBarItem.text = "n/a";
