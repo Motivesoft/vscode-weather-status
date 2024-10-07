@@ -2,7 +2,8 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-import axios from 'axios';
+//import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 let statusBarItem: vscode.StatusBarItem;
 
@@ -19,6 +20,11 @@ export function activate(context: vscode.ExtensionContext) {
 		updateWeatherStatus();
 	}));
 
+	/*
+	Would be nice to update whenever the configuration is edited, but we end up 
+	getting notifications for each keypress, which means we end up sending queries that won't work
+	We'll just have to let the user use the update command when they're ready to.
+
 	context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(event => {
 		if(event.affectsConfiguration('vscode-weather-status.location')
 			|| event.affectsConfiguration('vscode-weather-status.format')
@@ -28,7 +34,8 @@ export function activate(context: vscode.ExtensionContext) {
 			updateWeatherStatus();
 		}
 	}));
-	
+	*/
+
 	// TODO: Make the alignment and priority configurable? 
 	statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
 	statusBarItem.command = commandId;
@@ -78,12 +85,23 @@ async function getWeatherData(): Promise<void> {
 		console.log('Obtained updated weather status');
 		statusBarItem.text = response.data;
 	} catch (error) {
-		if(showMessage) {
-			vscode.window.showWarningMessage('Failed to update weather status');
-		}
-
 		console.log('Failed to get weather update: '+error);
 		statusBarItem.text = "n/a";
+		statusBarItem.tooltip = "Error: " + String(error);
+
+		if(showMessage) {
+			if(axios.isAxiosError(error)) {
+				if(error.response && error.response.status === 404) {
+					vscode.window.showWarningMessage('Failed to update weather status. Unknown location?');
+				}
+				else {
+					vscode.window.showWarningMessage('Failed to update weather status');
+				}
+			}
+			else {
+				vscode.window.showWarningMessage('Failed to update weather status');
+			}
+		}
 	}
 
 	// Make sure this is visible
