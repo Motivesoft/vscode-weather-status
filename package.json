@@ -3,7 +3,19 @@
   "displayName": "Weather Status",
   "description": "Display the current weather on the status bar",
   "version": "0.0.1",
-  "engines": {
+	"publisher": "motivesoft",
+  "author": {
+    "name": "ianabrown",
+		"url": "https://github.com/ianabrown"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Motivesoft/vscode-weather-status.git"
+  },
+	"homepage": "https://github.com/Motivesoft/vscode-weather-status/blob/master/README.md",
+	"bugs": {
+		"url": "https://github.com/Motivesoft/vscode-weather-status/issues"
+	},  "engines": {
     "vscode": "^1.94.0"
   },
   "categories": [
@@ -13,11 +25,44 @@
     "onStartupFinished"
   ],
   "main": "./dist/extension.js",
+	"capabilities": {
+		"virtualWorkspaces": true,
+		"untrustedWorkspaces": {
+			"supported": true
+		}
+	},
   "contributes": {
     "commands": [
       {
         "command": "vscode-weather-status.update",
         "title": "Update weather status"
+      }
+    ],
+    "configuration": [
+      {
+        "title": "Weather Status",
+        "properties": {
+          "vscode-weather-status.location": {
+						"type": "string",
+						"default": "",
+						"description": "The location to use to obtain the weather"
+					},
+          "vscode-weather-status.format": {
+						"type": "string",
+						"default": "%C %t %h %w",
+						"description": "The display format for the weather information on status bar"
+					},
+          "vscode-weather-status.language": {
+						"type": "string",
+						"default": "en",
+						"description": "The language to use for weather queries and results"
+					},
+					"vscode-weater-status.update-message": {
+						"type": "boolean",
+						"default": false,
+						"description": "Show a popup message when the weather status updates"
+					}
+        }
       }
     ]
   },
