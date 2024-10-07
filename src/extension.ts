@@ -84,11 +84,8 @@ async function getWeatherData(): Promise<void> {
 	
 		console.log('Obtained updated weather status');
 		statusBarItem.text = response.data;
+		statusBarItem.tooltip = response.data;
 	} catch (error) {
-		console.log('Failed to get weather update: '+error);
-		statusBarItem.text = "n/a";
-		statusBarItem.tooltip = "Error: " + String(error);
-
 		if(showMessage) {
 			if(axios.isAxiosError(error)) {
 				if(error.response && error.response.status === 404) {
@@ -102,6 +99,10 @@ async function getWeatherData(): Promise<void> {
 				vscode.window.showWarningMessage('Failed to update weather status');
 			}
 		}
+
+		console.log('Failed to get weather update: '+error);
+		statusBarItem.text = "n/a";
+		statusBarItem.tooltip = "Error: " + String(error);
 	}
 
 	// Make sure this is visible
