@@ -87,7 +87,7 @@ async function getWeatherData(): Promise<void> {
 		if( location === "" ) {
 			statusBarItem.tooltip = response.data;
 		} else {
-			statusBarItem.tooltip = location + ": " + response.data;
+			statusBarItem.tooltip = location + ": " + response.data + ". Click to update";
 		}
 	} catch (error) {
 		if(showMessage) {
@@ -106,7 +106,7 @@ async function getWeatherData(): Promise<void> {
 
 		console.log('Failed to get weather update: '+error);
 		statusBarItem.text = "n/a";
-		statusBarItem.tooltip = "Error: " + String(error);
+		statusBarItem.tooltip = "Error: " + String(error) + ". Click to retry";
 	}
 
 	// Make sure this is visible

@@ -49,7 +49,7 @@
 					},
           "vscode-weather-status.format": {
 						"type": "string",
-						"default": "%c %t %h %w",
+						"default": "%C %t %h %w",
 						"description": "The display format for the weather information on status bar"
 					},
           "vscode-weather-status.language": {

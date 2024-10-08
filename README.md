@@ -2,66 +2,49 @@
 
 This extension displays the current weather in the VS Code status bar. The weather is updated regularly while VS Code is running.
 
+The extension is heavily dependent on the excellent [https://wttr.in](https://wttr.in) weather service. Please take a moment to appreciate the provider of this service and see the project's [GitHub page](https://github.com/chubin/wttr.in).
+
 ## Features
 
 The extension calls a third-party weather service at regular intervals, requesting various bits of information to display in the statusbar. The information displayed can be adjusted in configuration, as can the location to obtain weather details for.
 
-The service currently obtains weather details from [https://wttr.in](https://wttr.in). Please take a moment to appreciate the provider of this service and see the project's [GitHub page](https://github.com/chubin/wttr.in).
-
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+The service currently obtains weather details from [https://wttr.in](https://wttr.in). 
+
+This extension cannot function without the data provided by this weather service. Any outages are outside the control of the author of this extension.
+
+Other weather providers may be considered and added to this extension if considered appropriate.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
 This extension contributes the following settings:
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+| **Setting** | **Description** | **Default Value** |
+|-|-|-|
+| `vscode-weather-status.location` | The city for which to obtain the weather status. | Best guess by the weather service |
+|`vscode-weather-status.format` | The information and format to display.                                                               | `%C %t %h %w`                  |
+|`vscode-weather-status.language` | The two-letter language code to use. | English |
+|`vscode-weather-status.update-message` | Enable/disable display of a message whenever the weather status is updated. | Disabled |
+
+See the wttr.in section on [one line output](https://github.com/chubin/wttr.in?tab=readme-ov-file#one-line-output) to get a sense of the format options, and the remainder of its [README.md](https://github.com/chubin/wttr.in/blob/master/README.md) for language and location hints.
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+None at this time, but always with the caveat that this extension relies on a third party weather service and cannot control the availability and  accuracy of this service.
+
+If the weather service becomes permanently unavailable to this extension, an alternative may be implemented or this extension will be deprecated.
+
+The configuration settings for location and information to display are not validated by this extension as they are provided, and validated, by the weather service itself.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+* The extension is automatically activated when it is installed and when VS Code is launched
+* The information displayed can be configured in settings
+* The information is updated every hour. This is currently not configurable
+* A message can be displayed whenever the information is updated
+* A language can be configured to cater for location that cannot be identified in English 
 
-### 1.0.0
+### 0.0.1
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Initial release of the weather status extension
