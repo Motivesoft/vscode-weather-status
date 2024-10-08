@@ -68,7 +68,7 @@ async function getWeatherData(): Promise<void> {
 	const location = config.get("location","");
 	const formatString = config.get("format","%C %t %h %w");
 	const langCode = config.get("language","");
-	const showMessage = config.get("update-message","false");
+	const showMessage = config.get("update-message",false);
 
 	try {
 		const response = await axios.get('https://wttr.in/'+location, {
@@ -84,7 +84,11 @@ async function getWeatherData(): Promise<void> {
 	
 		console.log('Obtained updated weather status');
 		statusBarItem.text = response.data;
-		statusBarItem.tooltip = response.data;
+		if( location === "" ) {
+			statusBarItem.tooltip = response.data;
+		} else {
+			statusBarItem.tooltip = location + ": " + response.data;
+		}
 	} catch (error) {
 		if(showMessage) {
 			if(axios.isAxiosError(error)) {
