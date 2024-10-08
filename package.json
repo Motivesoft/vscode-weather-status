@@ -8,6 +8,7 @@
     "name": "ianabrown",
 		"url": "https://github.com/ianabrown"
   },
+  "icon": "images/icon.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/Motivesoft/vscode-weather-status.git"
