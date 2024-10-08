@@ -1,12 +1,16 @@
-# vscode-weather-status README
+# Weather Status
 
 This extension displays the current weather in the VS Code status bar. The weather is updated regularly while VS Code is running.
 
 The extension is heavily dependent on the excellent [https://wttr.in](https://wttr.in) weather service. Please take a moment to appreciate the provider of this service and see the project's [GitHub page](https://github.com/chubin/wttr.in).
 
+Note that this is intended only to displah current weather conditions. It does not provide any sort of weather alerts or warning.
+
 ## Features
 
 The extension calls a third-party weather service at regular intervals, requesting various bits of information to display in the statusbar. The information displayed can be adjusted in configuration, as can the location to obtain weather details for.
+
+The command 'Update weather status' can be used to force the weather status to refresh at any time.
 
 ## Requirements
 
@@ -36,6 +40,8 @@ None at this time, but always with the caveat that this extension relies on a th
 If the weather service becomes permanently unavailable to this extension, an alternative may be implemented or this extension will be deprecated.
 
 The configuration settings for location and information to display are not validated by this extension as they are provided, and validated, by the weather service itself.
+
+If, for any reason, the call to the weather service fails, whether it is because the service is temporarily unavailable or the configuration settings are invalid, then the display will change to 'n/a' and the tooltip will display any error message obtained.
 
 ## Release Notes
 
