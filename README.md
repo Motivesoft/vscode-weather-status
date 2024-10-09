@@ -6,6 +6,12 @@ The extension is heavily dependent on the excellent [https://wttr.in](https://wt
 
 Note that this is intended only to displah current weather conditions. It does not provide any sort of weather alerts or warning.
 
+## Usage
+
+The extension will automatically start and display weather information in the status bar. The weather will be based on a best guess of your location, initially. If preferred, there is a configuration setting where you can enter a specific location. For best results, enter the name of a local city as the weather service will not be able to return a valid result if the location is unknown to the weather service.
+
+See [Extension Settings](#extension-settings) for configuration details.
+
 ## Features
 
 The extension calls a third-party weather service at regular intervals, requesting various bits of information to display in the statusbar. The information displayed can be adjusted in configuration, as can the location to obtain weather details for.

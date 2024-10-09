@@ -90,23 +90,23 @@ async function getWeatherData(): Promise<void> {
 			statusBarItem.tooltip = location + ": " + response.data + ". Click to update";
 		}
 	} catch (error) {
-		if(showMessage) {
-			if(axios.isAxiosError(error)) {
-				if(error.response && error.response.status === 404) {
-					vscode.window.showWarningMessage('Failed to update weather status. Unknown location?');
-				}
-				else {
-					vscode.window.showWarningMessage('Failed to update weather status');
-				}
+		console.log('Failed to get weather update: '+error);
+		statusBarItem.text = "n/a";
+		
+		if(axios.isAxiosError(error) && error.response && error.response.status === 404) {
+			statusBarItem.tooltip = "Error: " + String(error) + ". Unknown location?";
+			
+			if(showMessage) {
+				vscode.window.showWarningMessage('Failed to update weather status. Unknown location?');
 			}
-			else {
+		}
+		else {
+			statusBarItem.tooltip = "Error: " + String(error) + ". Click to retry";
+
+			if(showMessage) {
 				vscode.window.showWarningMessage('Failed to update weather status');
 			}
 		}
-
-		console.log('Failed to get weather update: '+error);
-		statusBarItem.text = "n/a";
-		statusBarItem.tooltip = "Error: " + String(error) + ". Click to retry";
 	}
 
 	// Make sure this is visible
