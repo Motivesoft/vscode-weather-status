@@ -2,9 +2,6 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-//import axios from 'axios';
-import axios, { AxiosError } from 'axios';
-
 let statusBarItem: vscode.StatusBarItem;
 
 // This method is called when your extension is activated
@@ -63,48 +60,67 @@ async function updateWeatherStatus() {
 	await getWeatherData();
 }
 
-async function getWeatherData(): Promise<void> {
+async function getWeatherData() : Promise<void> {
 	const config = vscode.workspace.getConfiguration("vscode-weather-status");
 	const location = config.get("location","");
 	const formatString = config.get("format","%C %t %h %w");
 	const langCode = config.get("language","");
 	const showMessage = config.get("update-message",false);
 
+	const baseUrl = 'https://wttr.in/'+location;
+	const params = new URLSearchParams({
+		format: formatString,
+		lang: langCode,
+	});
+
+	const urlWithParams = `${baseUrl}?${params.toString()}`;
+
 	try {
-		const response = await axios.get('https://wttr.in/'+location, {
-			params: {
-				format: formatString,
-				lang: langCode
-			}
-		});
-		
-		if(showMessage) {
-			vscode.window.showInformationMessage('Updating weather status');
-		}
-	
-		console.log('Obtained updated weather status');
-		statusBarItem.text = response.data;
-		if( location === "" ) {
-			statusBarItem.tooltip = response.data;
-		} else {
-			statusBarItem.tooltip = location + ": " + response.data + ". Click to update";
-		}
-	} catch (error) {
-		console.log('Failed to get weather update: '+error);
-		statusBarItem.text = "n/a";
-		
-		if(axios.isAxiosError(error) && error.response && error.response.status === 404) {
-			statusBarItem.tooltip = "Error: " + String(error) + ". Unknown location?";
+		const response = await fetch(urlWithParams);
+
+		if (response.ok) {
+			console.log(`Requesting weather status: location [${location}], format [${formatString}], lang [${langCode}]`);
+			const data = await response.text();
+
+			console.log(`Obtained updated weather status: ${data}`);
+
+			statusBarItem.text = data;
 			
-			if(showMessage) {
-				vscode.window.showWarningMessage('Failed to update weather status. Unknown location?');
+			if( location === "" ) {
+				statusBarItem.tooltip = data;
+			} else {
+				statusBarItem.tooltip = location + ": " + data + ". Click to update";
 			}
-		}
-		else {
-			statusBarItem.tooltip = "Error: " + String(error) + ". Click to retry";
 
 			if(showMessage) {
-				vscode.window.showWarningMessage('Failed to update weather status');
+				vscode.window.showInformationMessage("Updated weather status");
+			}
+		} else {
+			// Check specifically for a 404 error as that may indicate unknown location 
+			if (response.status === 404) {
+				console.error(`Error updating weather status: ${response.status} ${response.statusText}`);
+	
+				statusBarItem.text = "n/a";
+				statusBarItem.tooltip = `Error: ${response.status} ${response.statusText}. Unknown location?`;
+			
+				if(showMessage) {
+					vscode.window.showErrorMessage('Failed to update weather status. Unknown location?');
+				}
+			} else {
+				throw new Error(`${response.status} ${response.statusText}`);
+			}
+		}
+	} catch (error) {
+		console.error(`Error updating weather status: ${error}`);
+
+		statusBarItem.text = "n/a";
+		statusBarItem.tooltip = "Error: " + String(error) + ". Click to retry";
+
+		if(showMessage) {
+			if(error instanceof Error) {
+				vscode.window.showErrorMessage(`Error updating weather status: ${error.message}`);
+			} else {
+				vscode.window.showErrorMessage(`Error updating weather status: ${String(error)}`);
 			}
 		}
 	}
