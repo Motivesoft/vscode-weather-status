@@ -2,7 +2,12 @@
   "name": "vscode-weather-status",
   "displayName": "Weather Status",
   "description": "Display the current weather on the status bar",
-  "version": "0.1.0",
+  "keywords": [
+		"weather",
+		"wttr",
+    "wttr.in"
+	],
+  "version": "0.1.1",
 	"publisher": "motivesoft",
   "author": {
     "name": "ianabrown",

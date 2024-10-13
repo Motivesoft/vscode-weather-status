@@ -4,7 +4,7 @@ This extension displays the current weather in the VS Code status bar. The weath
 
 The extension is heavily dependent on the excellent [https://wttr.in](https://wttr.in) weather service. Please take a moment to appreciate the provider of this service and see the project's [GitHub page](https://github.com/chubin/wttr.in).
 
-Note that this is intended only to displah current weather conditions. It does not provide any sort of weather alerts or warning.
+Note that this is intended only to display current weather conditions. It does not provide any sort of weather alerts or warnings.
 
 ## Usage
 
@@ -57,6 +57,10 @@ If, for any reason, the call to the weather service fails, whether it is because
 * A message can be displayed whenever the information is updated
 * A language can be configured to cater for location that cannot be identified in English 
 
-### 0.0.1
+### 0.1.0
 
 Initial release of the weather status extension
+
+### 0.1.1
+
+Documentation updates
