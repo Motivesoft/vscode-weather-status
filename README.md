@@ -47,7 +47,9 @@ If the weather service becomes permanently unavailable to this extension, an alt
 
 The configuration settings for location and information to display are not validated by this extension as they are provided, and validated, by the weather service itself.
 
-If, for any reason, the call to the weather service fails, whether it is because the service is temporarily unavailable or the configuration settings are invalid, then the display will change to 'n/a' and the tooltip will display any error message obtained.
+If, for any reason, the call to the weather service fails, whether it is because the service is temporarily unavailable, over capacity or the configuration settings are invalid, then the display will change to 'n/a' and the tooltip will display any error message obtained.
+
+In the event the service reports a 503 error, it is likely to be that the weather service itself is temporarily broken. If the error is a 404, it is most likely that you have configured a location for the weather that the service does not know. Modify the location to the name of the city closest to your desired location or consult the weather service [README.md](https://github.com/chubin/wttr.in/blob/master/README.md) for other location hints.
 
 ## Release Notes
 
@@ -64,3 +66,7 @@ Initial release of the weather status extension
 ### 0.1.1
 
 Documentation updates
+
+### 0.1.2
+
+Report a more human-readable message if the server is unavailable with a 503

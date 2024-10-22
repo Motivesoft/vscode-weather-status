@@ -104,7 +104,16 @@ async function getWeatherData() : Promise<void> {
 				statusBarItem.tooltip = `Error: ${response.status} ${response.statusText}. Unknown location?`;
 			
 				if(showMessage) {
-					vscode.window.showErrorMessage('Failed to update weather status. Unknown location?');
+					vscode.window.showErrorMessage('Failed to update weather status. Possibly due to unknown location');
+				}
+			} else if (response.status === 503) {
+				console.error(`Error updating weather status: ${response.status} ${response.statusText}`);
+	
+				statusBarItem.text = "n/a";
+				statusBarItem.tooltip = `Error: ${response.status} ${response.statusText}. Service down or over capacity`;
+			
+				if(showMessage) {
+					vscode.window.showErrorMessage('Failed to update weather status. Service down or over capacity');
 				}
 			} else {
 				throw new Error(`${response.status} ${response.statusText}`);
