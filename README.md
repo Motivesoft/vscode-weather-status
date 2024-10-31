@@ -2,9 +2,12 @@
 
 This extension displays the current weather in the VS Code status bar. The weather is updated regularly while VS Code is running.
 
-The extension is heavily dependent on the excellent [https://wttr.in](https://wttr.in) weather service. Please take a moment to appreciate the provider of this service and see the project's [GitHub page](https://github.com/chubin/wttr.in).
+The extension uses the [https://wttr.in](https://wttr.in) weather service. For details about this service, see the project's [GitHub page](https://github.com/chubin/wttr.in).
 
 Note that this is intended only to display current weather conditions. It does not provide any sort of weather alerts or warnings.
+
+> Note: There is an alternate version of this extension, [vscode-weather-status-open-meteo](https://github.com/Motivesoft/vscode-weather-status-open-meteo), that uses a different weather service provider but otherwise offers similar features.<br>
+> If either of the associated weather services becomes unreliable or unavailable, try switching to the alternate extension.
 
 ## Usage
 
@@ -16,7 +19,9 @@ See [Extension Settings](#extension-settings) for configuration details.
 
 The extension calls a third-party weather service at regular intervals, requesting various bits of information to display in the statusbar. The information displayed can be adjusted in configuration, as can the location to obtain weather details for.
 
-The command 'Update weather status' can be used to force the weather status to refresh at any time.
+The command `Update Weather Status` can be used to force the weather status to refresh at any time. If the user's location has not been configured in settings, the wather service will approximate the location from the user's IP address.
+
+The command `Set Weather Location` will allow the user to enter the name of their nearest city for most accurate weather information. Users of Visual Studio Code for the Web will be required to do this before any weather data is displayed.
 
 ## Requirements
 
@@ -59,14 +64,21 @@ In the event the service reports a 503 error, it is likely to be that the weathe
 * A message can be displayed whenever the information is updated
 * A language can be configured to cater for location that cannot be identified in English 
 
-### 0.1.0
+### 1.0.0
 
-Initial release of the weather status extension
-
-### 0.1.1
-
-Documentation updates
+- Update the extension to support using with [Visual Studio Code for the Web](https://github.com/microsoft/vscode-docs/blob/main/docs/editor/vscode-web.md)
+- Cross-reference variant of this extension that uses Open-Meteo for weather
+- Sort changelog in reverse chronological order
+- Update version to 1.0.0 to indicate feature complete status
 
 ### 0.1.2
 
-Report a more human-readable message if the server is unavailable with a 503
+- Report a more human-readable message if the server is unavailable with a 503
+
+### 0.1.1
+
+- Documentation updates
+
+### 0.1.0
+
+- Initial release of the weather status extension

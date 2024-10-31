@@ -4,6 +4,9 @@ import * as vscode from 'vscode';
 
 let statusBarItem: vscode.StatusBarItem;
 
+const updateCommandId = 'vscode-weather-status.update';
+const setLocationCommandId = 'vscode-weather-status.set-location';
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -12,34 +15,20 @@ export function activate(context: vscode.ExtensionContext) {
 	// This line of code will only be executed once when your extension is activated
 	console.log('"vscode-weather-status" is now active');
 
-	const commandId = 'vscode-weather-status.update';
-	context.subscriptions.push(vscode.commands.registerCommand(commandId, () => {
+	context.subscriptions.push(vscode.commands.registerCommand(updateCommandId, () => {
 		updateWeatherStatus();
 	}));
 
-	/*
-	Would be nice to update whenever the configuration is edited, but we end up 
-	getting notifications for each keypress, which means we end up sending queries that won't work
-	We'll just have to let the user use the update command when they're ready to.
-
-	context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(event => {
-		if(event.affectsConfiguration('vscode-weather-status.location')
-			|| event.affectsConfiguration('vscode-weather-status.format')
-			|| event.affectsConfiguration('vscode-weather-status.language')) {
-			// Update the display - only do this if a pertinent setting has changed
-			console.log('Configuration changed!');
-			updateWeatherStatus();
-		}
+	context.subscriptions.push(vscode.commands.registerCommand(setLocationCommandId, () => {
+		updateWeatherLocation();
 	}));
-	*/
 
-	// TODO: Make the alignment and priority configurable? 
 	statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
-	statusBarItem.command = commandId;
+	statusBarItem.command = updateCommandId;
 	context.subscriptions.push(statusBarItem);
 
 	// Set the weather status on activation
-	vscode.commands.executeCommand(commandId);
+	vscode.commands.executeCommand(updateCommandId);
 
 	// Cause an update on a regular basis - every 60 minutes
 	// TODO: consider making this configurable, but not too much as the underlying
@@ -60,6 +49,30 @@ async function updateWeatherStatus() {
 	await getWeatherData();
 }
 
+async function updateWeatherLocation() {
+	let options: vscode.InputBoxOptions = {
+		prompt: "Enter the name of the nearest city to use for your location",
+		placeHolder: ""
+	};
+	
+	vscode.window.showInputBox(options).then(value => {
+		if (!value) {
+			console.log("No value entered");
+			return;
+		}
+		
+		console.log(`Location value entered: ${value}`);
+
+		// Update the setting and invoke the update command
+		const configuration = vscode.workspace.getConfiguration("vscode-weather-status");
+		configuration.update("location", value, vscode.ConfigurationTarget.Global).then( _ => {
+			// Got the value we need. Now we can force an update
+			statusBarItem.command = updateCommandId;
+			vscode.commands.executeCommand(updateCommandId);
+		});
+	});
+}
+
 async function getWeatherData() : Promise<void> {
 	const config = vscode.workspace.getConfiguration("vscode-weather-status");
 	const location = config.get("location","");
@@ -67,6 +80,25 @@ async function getWeatherData() : Promise<void> {
 	const langCode = config.get("language","");
 	const showMessage = config.get("update-message",false);
 
+	// The weather service will happily return results guessing the location to use based on the IP address of
+	// system that makes the API call. 
+	// When running with VS Code on the desktop, this is probably accurate (unless a VPN is involved), but when
+	// using VS Code for the Web, the results are unclear. 
+	if (vscode.env.uiKind === vscode.UIKind.Web) {
+		if(location === "") {
+			console.info( "Weather Status needs location information to continue");
+
+			vscode.window.showInformationMessage('Weather Status requires configuration');
+	
+			statusBarItem.text = `Weather Status: Click to configure`;
+			statusBarItem.tooltip = `Weather Status: Configuration required`;
+			statusBarItem.command = setLocationCommandId;
+			statusBarItem.show();
+
+			return;
+		}
+	}
+	
 	const baseUrl = 'https://wttr.in/'+location;
 	const params = new URLSearchParams({
 		format: formatString,
@@ -87,7 +119,7 @@ async function getWeatherData() : Promise<void> {
 			statusBarItem.text = data;
 			
 			if( location === "" ) {
-				statusBarItem.tooltip = data;
+				statusBarItem.tooltip = data + " using estimated location. Click to update";
 			} else {
 				statusBarItem.tooltip = location + ": " + data + ". Click to update";
 			}
