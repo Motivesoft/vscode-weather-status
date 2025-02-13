@@ -64,6 +64,10 @@ In the event the service reports a 503 error, it is likely to be that the weathe
 * A message can be displayed whenever the information is updated
 * A language can be configured to cater for location that cannot be identified in English 
 
+### 1.0.1
+
+- Updated dependencies in response to [CVE-2025-25200](https://github.com/advisories/GHSA-593f-38f6-jp5m) 
+
 ### 1.0.0
 
 - Update the extension to support using with [Visual Studio Code for the Web](https://github.com/microsoft/vscode-docs/blob/main/docs/editor/vscode-web.md)
