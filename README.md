@@ -64,6 +64,13 @@ In the event the service reports a 503 error, it is likely to be that the weathe
 * A message can be displayed whenever the information is updated
 * A language can be configured to cater for location that cannot be identified in English 
 
+### 1.0.2
+
+- Updated dependencies in response to the following:
+  - CVE-2025-32379 (Moderate severity)
+  - CVE-2025-48387 (High severity)
+  - CVE-2025-5889 (Low severity)
+
 ### 1.0.1
 
 - Updated dependencies in response to [CVE-2025-25200](https://github.com/advisories/GHSA-593f-38f6-jp5m) 

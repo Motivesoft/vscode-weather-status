@@ -10,11 +10,6 @@ const setLocationCommandId = 'vscode-weather-status.set-location';
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('"vscode-weather-status" is now active');
-
 	context.subscriptions.push(vscode.commands.registerCommand(updateCommandId, () => {
 		updateWeatherStatus();
 	}));
@@ -57,11 +52,9 @@ async function updateWeatherLocation() {
 	
 	vscode.window.showInputBox(options).then(value => {
 		if (!value) {
-			console.log("No value entered");
+			// No value entered
 			return;
 		}
-		
-		console.log(`Location value entered: ${value}`);
 
 		// Update the setting and invoke the update command
 		const configuration = vscode.workspace.getConfiguration("vscode-weather-status");
@@ -86,8 +79,6 @@ async function getWeatherData() : Promise<void> {
 	// using VS Code for the Web, the results are unclear. 
 	if (vscode.env.uiKind === vscode.UIKind.Web) {
 		if(location === "") {
-			console.info( "Weather Status needs location information to continue");
-
 			vscode.window.showInformationMessage('Weather Status requires configuration');
 	
 			statusBarItem.text = `Weather Status: Click to configure`;
@@ -111,10 +102,7 @@ async function getWeatherData() : Promise<void> {
 		const response = await fetch(urlWithParams);
 
 		if (response.ok) {
-			console.log(`Requesting weather status: location [${location}], format [${formatString}], lang [${langCode}]`);
 			const data = await response.text();
-
-			console.log(`Obtained updated weather status: ${data}`);
 
 			statusBarItem.text = data;
 			
