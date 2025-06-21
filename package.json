@@ -23,7 +23,7 @@
     "url": "https://github.com/Motivesoft/vscode-weather-status/issues"
   },
   "engines": {
-    "vscode": "^1.94.0"
+    "vscode": "^1.101.0"
   },
   "categories": [
     "Other"
