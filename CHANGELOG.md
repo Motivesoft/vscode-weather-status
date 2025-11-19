@@ -2,6 +2,10 @@
 
 All notable changes to the Weather Status extension will be documented in this file.
 
+## [1.0.3]
+
+- Updated dependencies in response to Dependabot alert
+
 ## [1.0.2]
 
 - Updated dependencies in response to the following:
@@ -32,6 +36,7 @@ All notable changes to the Weather Status extension will be documented in this f
 
 - Initial release
 
+[1.0.3]: https://github.com/Motivesoft/vscode-weather-status/releases/tag/v1.0.3
 [1.0.2]: https://github.com/Motivesoft/vscode-weather-status/releases/tag/v1.0.2
 [1.0.1]: https://github.com/Motivesoft/vscode-weather-status/releases/tag/v1.0.1
 [1.0.0]: https://github.com/Motivesoft/vscode-weather-status/releases/tag/v1.0.0

@@ -64,6 +64,10 @@ In the event the service reports a 503 error, it is likely to be that the weathe
 * A message can be displayed whenever the information is updated
 * A language can be configured to cater for location that cannot be identified in English 
 
+### 1.0.3
+
+- Updated dependencies in response to a Dependabot alert
+
 ### 1.0.2
 
 - Updated dependencies in response to the following:
